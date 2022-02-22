@@ -1,0 +1,30 @@
+def props = [:]
+pipeline {
+    agent {
+
+    }
+    triggers {
+        eventTrigger jmespathQuery()
+    }
+    stages {
+        stage('declare properties file'){
+            script {
+                container('<container name>') {
+                    props = readProperties(file: 'build.properties')
+                }
+            }
+        }
+        stage('build') {
+            sh 'mvn -B -DskipTests clean package'
+        }
+        stage('unit tests') {
+            sh 'mvn test'
+        }
+        stage('prepare environment') {
+            sh 'terraform apply -auto-approve'
+        }
+        stage('deploy stage') {
+            sh 'echo "scp build artifact to EC2 Apache Tomcat Server, then redtart apache service"'
+        }
+    }
+}
