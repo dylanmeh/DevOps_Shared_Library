@@ -1,0 +1,24 @@
+---
+  - name: Install and configure Tomcat
+    hosts: <inventory group>
+    become: yes
+    become_method: sudo
+    tasks:
+      - name: Downloading Tomcat
+        get_url:
+          url: "https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.75/bin/apache-tomcat-8.5.75.tar.gz"
+          dest: /usr/local/bin
+      
+      - name: Extract Tomcat tarball
+        unarchive: 
+          src: "/usr/local/bin/apache-tomcat-8.5.75.tar.gz"
+          dest: /usr/local/bin
+          remote_src: yes
+
+      - name: Starting Tomcat
+        ansible.builtin.file:
+          path: /usr/local/bin/apache-tomcat-8.5.75.tar.gz
+          owner:
+          group:
+          mode: '0744'
+                     
