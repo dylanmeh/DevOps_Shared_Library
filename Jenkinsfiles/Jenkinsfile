@@ -40,6 +40,9 @@ spec:
             }            
         }
         stage('build') {
+            when {
+                equals (expected: 'true', actual: "${props[""]}")
+            }
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
@@ -50,6 +53,9 @@ spec:
             }       
         }
         stage('unit tests') {
+            when {
+                equals (expected: '', actual: "${props[""]}")
+            }
             steps {
                 sh 'mvn test'
             }
@@ -60,6 +66,9 @@ spec:
             }
         }
         stage('prepare environment') {
+            when {
+                equals (expected: '', actual: "${props[""]}")
+            }
             steps {
                 sh '''
                 cd Terraform_Folder
@@ -68,6 +77,9 @@ spec:
             }
         }
         stage('deploy stage') {
+            when {
+                equals (expected: '', actual: "${props[""]}")
+            }
             steps {
                 sh 'echo "scp build artifact to EC2 Apache Tomcat Server, then redtart apache service"'
             }
