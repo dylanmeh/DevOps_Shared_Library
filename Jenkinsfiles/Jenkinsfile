@@ -33,8 +33,10 @@ pipeline {
             }    
         }
         stage('build and push docker images') {
-            script {
-                buildAndDeployDockerfiles()
+            steps {
+                script {
+                    buildAndDeployDockerfiles()
+                }
             }            
         }
         stage('build') {
