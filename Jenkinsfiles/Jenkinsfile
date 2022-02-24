@@ -1,9 +1,9 @@
 @Library("devops") _
 def props = [:]
-podTemplate(podRetention: onFailure(), 
-activeDeadlineSeconds: 600,
-    
-yaml: '''
+pipeline {
+    agent {
+        kubernetes {
+            yaml '''
 apiVersion: v1
 kind: Pod
 spec:
@@ -12,15 +12,65 @@ spec:
     image: dylanmehmedovic/alpine-docker:latest
     command:
     - cat
-    args:
-    - infintity
-''') {
-    node(POD_LABEL) {
-        container('alpine-docker') {
-            props = readProperties(file: 'Property_file/build.properties')
-        } 
-        container('alpine-docker') {
-            buildAndDeployDockerfiles()
+    tty: true
+    '''
+        }    
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub_creds')
+    }
+    stages {
+        stage('declare properties file') {
+            steps {
+                script {
+                    container('alpine-docker') {
+                        props = readProperties(file: 'Property_file/build.properties')
+                    }
+                }
+            }    
+        }
+        stage('build and push docker images') {
+            steps {
+                script {
+                    buildAndDeployDockerfiles()
+                }
+            }            
+        }
+        stage('build') {
+            steps {
+                sh 'mvn -B -DskipTests clean package'
+            }
+            post {
+                success {
+                    archiveArtifacts(artifacts: 'target/*.jar')
+                }
+            }       
+        }
+        stage('unit tests') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
+            }
+        }
+        stage('prepare environment') {
+            steps {
+                sh '''
+                cd Terraform_Folder
+                terraform apply -auto-approve
+                '''
+            }
+        }
+        stage('deploy stage') {
+            steps {
+                sh 'echo "scp build artifact to EC2 Apache Tomcat Server, then redtart apache service"'
+            }
         }
     }
-}            
+}
