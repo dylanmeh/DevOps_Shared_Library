@@ -1,7 +1,7 @@
 @Library("devops") _
 def props = [:]
 podTemplate(podRetention: onFailure(), 
-activeDeadlineSeconds: 600
+activeDeadlineSeconds: 600)
     
 yaml: '''
 apiVersion: v1
