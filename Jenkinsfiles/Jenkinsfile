@@ -34,9 +34,7 @@ pipeline {
         }
         stage('build docker images') {
             steps {
-                container('alpine-docker') {
-                    buildAndDeployDockerfiles()
-                }
+                buildAndDeployDockerfiles()
             }        
         }
         stage('build') {
