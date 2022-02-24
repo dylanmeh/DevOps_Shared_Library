@@ -3,6 +3,8 @@ def props = [:]
 pipeline {
     agent {
         kubernetes {
+            podRention: onfailure(),
+            activeDeadlineSeconds: 600,
             yaml '''
 apiVersion: v1
 kind: Pod
