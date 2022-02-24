@@ -27,7 +27,7 @@ pipeline {
             steps {
                 script {
                     container('alpine-docker') {
-                        props = readProperties(file: 'build.properties')
+                        props = readProperties(file: 'Property_file/build.properties')
                     }
                 }
             }    
