@@ -1,5 +1,5 @@
 def call() {
-    git credentialsId: 'GitHub_Creds' url: 'https://github.com/dylanmeh/DevOps_Dockerfiles.git'
+    git credentialsId: 'GitHub_Creds', url: 'https://github.com/dylanmeh/DevOps_Dockerfiles.git'
     sh '''
     cd Dockerfiles/Maven
     docker build -t dylanmehmedovic/alpine-docker .
