@@ -60,7 +60,10 @@ pipeline {
         }
         stage('prepare environment') {
             steps {
-                sh 'terraform apply -auto-approve'
+                sh '''
+                cd Terraform_Folder
+                terraform apply -auto-approve
+                '''
             }
         }
         stage('deploy stage') {
