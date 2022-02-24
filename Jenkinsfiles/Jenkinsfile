@@ -9,7 +9,7 @@ kind: Pod
 spec:
   containers:
   - name: alpine-docker
-    image: dylanmehmedovic/apline-docker:latest
+    image: dylanmehmedovic/alpine-docker:latest
     command:
     - cat
     tty: true
