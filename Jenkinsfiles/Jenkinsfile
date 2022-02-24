@@ -23,6 +23,9 @@ spec:
         DOCKERHUB_CREDENTIALS = credentials('dockerhub_creds')
     }
     stages {
+        stage('job start time') {
+            buildStart()
+        }
         stage('declare properties file') {
             steps {
                 script {
@@ -84,9 +87,12 @@ spec:
                 sh 'echo "scp build artifact to EC2 Apache Tomcat Server, then redtart apache service"'
             }
         }
+        stage('job end time') {
+            buildEnd()
+        }
         post {
             failure {
-                buildResultsEmail("Failure")
+                buildResults()
             }
         }
     }
