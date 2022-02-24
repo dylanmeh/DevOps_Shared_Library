@@ -9,10 +9,10 @@ pipeline {
             spec:
             containers:
             - name: alpine-docker
-                image: 'dylanmehmedovic/apline-docker:latest'
-                command:
-                - cat
-                tty: true
+              image: 'dylanmehmedovic/apline-docker:latest'
+              command:
+              - cat
+              tty: true
             '''
         }    
     }
