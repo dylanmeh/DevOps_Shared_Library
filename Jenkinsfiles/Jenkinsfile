@@ -84,5 +84,10 @@ spec:
                 sh 'echo "scp build artifact to EC2 Apache Tomcat Server, then redtart apache service"'
             }
         }
+        post {
+            failure {
+                buildResultsEmail("Failure")
+            }
+        }
     }
 }
