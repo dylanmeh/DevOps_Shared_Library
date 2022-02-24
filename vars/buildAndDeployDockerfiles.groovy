@@ -1,16 +1,17 @@
 def call() {
-    pipeline {
-        agent {
-
-        }
-        stages {
-            stage('build docker file') {
-                sh 'docker build -t <image tage> .'
-            }
-            stage('deploy docker file') {
-                sh 'docker login -u <username> -p <password>'
-                sh 'docker push <image tag>'
-            }
-        }
+    stage('build docker images') {
+        container('alpine-docker') {
+            git credentialsId: 'GitHub_Creds' url: 'https://github.com/dylanmeh/DevOps_Dockerfiles.git'
+            sh '''
+            cd Dockerfiles/Maven
+            docker build -t dylanmehmedovic/alpine-docker .
+            echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+            docker push dylanmehmedovic/alpine-docker
+            cd ../Gradle
+            docker build -t dylanmehmedovic/alpine-docker .
+            echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+            docker push dylanmehmedovic/alpine-docker
+            '''
+        }    
     }
 }    
