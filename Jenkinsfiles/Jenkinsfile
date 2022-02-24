@@ -16,9 +16,6 @@ pipeline {
             '''
         }    
     }
-    triggers {
-        eventTrigger jmespathQuery()
-    }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
     }
