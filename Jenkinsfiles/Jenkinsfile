@@ -1,7 +1,7 @@
 @Library("devops") _
 def props = [:]
 podTemplate(podRetention: onFailure(), 
-activeDeadlineSeconds: 600)
+activeDeadlineSeconds: 600,
     
 yaml: '''
 apiVersion: v1
@@ -12,7 +12,8 @@ spec:
     image: dylanmehmedovic/alpine-docker:latest
     command:
     - cat
-    tty: true
+    args:
+    - infintity
 ''') {
     node(POD_LABEL) {
         container('alpine-docker') {
