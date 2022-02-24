@@ -3,7 +3,7 @@ def call() {
     container('alpine-docker') {
         stage('build and push docker images') {
             sh '''
-            cd /home/jenkins/agent/workspace/
+            pwd
             ls 
             cd Dockerfiles/Maven
             docker build -t dylanmehmedovic/alpine-docker .
