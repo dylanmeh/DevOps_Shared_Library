@@ -27,16 +27,20 @@ pipeline {
     }
     stages {
         stage('declare properties file') {
-            script {
-                container('alpine-docker') {
-                    props = readProperties(file: 'build.properties')
+            steps {
+                script {
+                    container('alpine-docker') {
+                        props = readProperties(file: 'build.properties')
+                    }
                 }
-            }
+            }    
         }
         stage('build docker images') {
-            container('alpine-docker') {
-                buildAndDeployDockerfiles()
-            }    
+            steps {
+                container('alpine-docker') {
+                    buildAndDeployDockerfiles()
+                }
+            }        
         }
         stage('build') {
             steps {
