@@ -56,11 +56,14 @@ spec:
             }       
         }
         stage('unit tests') {
-            when {
-                branch "master"
-            }
             steps {
-                sh 'mvn test'
+                scripts {
+                    if (env.BRANCH_NAME == 'master') {
+                        sh 'mvn test'
+                    } else {
+                        equals (expected: '', actual: "$props[""]}")
+                    }
+                }    
             }
             post {
                 always {
