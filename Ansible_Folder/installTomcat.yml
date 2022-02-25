@@ -16,6 +16,6 @@
           remote_src: yes
 
       - name: Starting Tomcat
-        shell: ./usr/local/bin/apache-tomcat-8.5.75.tar.gz/bin/startup.sh
+        shell: nohup ./usr/local/bin/apache-tomcat-8.5.75.tar.gz/bin/startup.sh
 
                      
