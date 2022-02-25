@@ -2,7 +2,6 @@
   - name: Install and configure Tomcat
     hosts: <inventory group>
     become: true
-    become_method: sudo
     tasks:
       - name: Downloading Tomcat
         get_url:
