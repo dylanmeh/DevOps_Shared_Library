@@ -16,7 +16,7 @@ data "aws" "default_vpc" {
 
 }
 resource "aws_instance" "java_app_server" {
-    ami             =
+    ami             = "ami-04505e740741db8d"
     instance_type   = "t2.micro"
     security_groups = [aws_security_group.sg_java_app.name]
 }
