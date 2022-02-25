@@ -57,7 +57,7 @@ spec:
         }
         stage('unit tests') {
             when {
-                equals (expected: '', actual: "${props[""]}")
+                branch "master"
             }
             steps {
                 sh 'mvn test'
